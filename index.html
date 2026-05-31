@@ -14,9 +14,9 @@
       --ink: #202437;
       --muted: #66708d;
       --line: rgba(133, 159, 210, 0.30);
-      --accent: #e88ab4;
-      --accent-dark: #b95f8b;
-      --blue: #6e9ee8;
+      --accent: #f48fbd;
+      --accent-dark: #d7659e;
+      --blue: #86b9ff;
       --green: #5d8f93;
       --danger: #c95f78;
       --serenity: #8eb8f2;
@@ -33,9 +33,9 @@
       margin: 0;
       font-family: Arial, "Microsoft YaHei", sans-serif;
       background:
-        radial-gradient(circle at 12% 8%, rgba(243, 168, 199, 0.42), transparent 28%),
-        radial-gradient(circle at 88% 18%, rgba(142, 184, 242, 0.48), transparent 30%),
-        linear-gradient(135deg, #fff7fb 0%, #eef6ff 52%, #fffdf8 100%);
+        radial-gradient(circle at 12% 8%, rgba(255, 183, 215, 0.56), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(156, 202, 255, 0.58), transparent 30%),
+        linear-gradient(135deg, #fff2fa 0%, #edf7ff 48%, #fff8fd 100%);
       color: var(--ink);
     }
 
@@ -63,7 +63,7 @@
       position: relative;
       overflow: hidden;
       background:
-        linear-gradient(115deg, rgba(243, 168, 199, 0.94), rgba(142, 184, 242, 0.96)),
+        linear-gradient(115deg, rgba(255, 175, 211, 0.96), rgba(142, 190, 255, 0.96)),
         #f3a8c7;
       color: #1f253c;
       padding: 22px 24px;
@@ -72,12 +72,12 @@
     }
 
     .topbar::before {
-      content: "◇ 17 ◇";
+      content: "17";
       position: absolute;
       right: 36px;
       top: -18px;
-      color: rgba(255, 255, 255, 0.45);
-      font-size: 92px;
+      color: rgba(255, 255, 255, 0.40);
+      font-size: 112px;
       font-weight: 700;
       letter-spacing: 0;
       pointer-events: none;
@@ -88,7 +88,7 @@
       position: absolute;
       inset: auto 0 0;
       height: 5px;
-      background: linear-gradient(90deg, #f3a8c7, #ffffff, #8eb8f2, #d6a85f);
+      background: linear-gradient(90deg, #ffafd3, #ffffff, #8ebeff, #f7d7e8);
     }
 
     .topbar-inner {
@@ -100,6 +100,12 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 14px;
     }
 
     .brand {
@@ -189,6 +195,78 @@
       align-items: start;
     }
 
+    .showcase-hero {
+      position: relative;
+      overflow: hidden;
+      max-width: 1180px;
+      margin: 24px auto 0;
+      padding: 22px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.54);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .showcase-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 8% 25%, rgba(255, 175, 211, 0.36), transparent 25%),
+        radial-gradient(circle at 92% 12%, rgba(142, 190, 255, 0.42), transparent 30%);
+      pointer-events: none;
+    }
+
+    .showcase-copy,
+    .showcase-mark {
+      position: relative;
+      z-index: 1;
+    }
+
+    .showcase-copy span {
+      display: inline-block;
+      margin-bottom: 7px;
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .showcase-copy h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    .showcase-copy p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .showcase-mark {
+      width: 92px;
+      height: 92px;
+      display: grid;
+      place-items: center;
+      transform: rotate(45deg);
+      border: 2px solid rgba(255, 255, 255, 0.88);
+      background: linear-gradient(135deg, rgba(255, 175, 211, 0.56), rgba(142, 190, 255, 0.58));
+      color: #2d3658;
+      font-size: 32px;
+      font-weight: 700;
+      box-shadow: 0 16px 34px rgba(74, 99, 159, 0.18);
+    }
+
+    .showcase-mark span {
+      transform: rotate(-45deg);
+    }
+
     .panel {
       background: var(--paper);
       border: 1px solid var(--line);
@@ -246,6 +324,30 @@
       line-height: 1.6;
     }
 
+    .image-tools {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .image-preview {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(133, 159, 210, 0.30);
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.54);
+    }
+
+    .image-preview img {
+      display: block;
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+    }
+
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -301,7 +403,7 @@
     .toolbar {
       padding: 16px;
       display: grid;
-      grid-template-columns: 1fr 160px 130px auto auto;
+      grid-template-columns: 1fr 160px 130px auto auto auto;
       gap: 10px;
       margin-bottom: 14px;
     }
@@ -321,11 +423,13 @@
     }
 
     .entry {
-      background: var(--paper);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 253, 0.88)),
+        var(--paper);
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: var(--shadow);
-      padding: 16px;
+      padding: 18px;
       position: relative;
       overflow: hidden;
     }
@@ -336,6 +440,17 @@
       inset: 0 auto 0 0;
       width: 5px;
       background: linear-gradient(180deg, var(--quartz), var(--serenity));
+    }
+
+    .entry::after {
+      content: "17";
+      position: absolute;
+      right: 18px;
+      bottom: 6px;
+      color: rgba(142, 184, 242, 0.13);
+      font-size: 64px;
+      font-weight: 700;
+      pointer-events: none;
     }
 
     .entry-head {
@@ -391,6 +506,17 @@
       overflow-wrap: anywhere;
     }
 
+    .entry-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: 420px;
+      margin-top: 14px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(133, 159, 210, 0.28);
+    }
+
     .entry-link {
       display: inline-block;
       margin-top: 10px;
@@ -419,6 +545,38 @@
       border-radius: 8px;
     }
 
+    .display-mode .editor,
+    .display-mode .entry-actions {
+      display: none;
+    }
+
+    .display-mode .layout {
+      grid-template-columns: 1fr;
+      max-width: 1040px;
+    }
+
+    .display-mode .toolbar {
+      grid-template-columns: 1fr 150px 130px auto;
+    }
+
+    .display-mode .toolbar .backup-control,
+    .display-mode .toolbar input[type="file"] {
+      display: none;
+    }
+
+    .display-mode .entries {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .display-mode .entry {
+      min-height: 280px;
+    }
+
+    .display-mode .entry h2 {
+      font-size: 22px;
+    }
+
     @media (max-width: 860px) {
       .topbar-inner {
         align-items: stretch;
@@ -441,6 +599,15 @@
       .toolbar {
         grid-template-columns: 1fr;
       }
+
+      .showcase-hero,
+      .display-mode .entries {
+        grid-template-columns: 1fr;
+      }
+
+      .showcase-mark {
+        display: none;
+      }
     }
 
     @media (max-width: 520px) {
@@ -454,7 +621,8 @@
 
       .stats,
       .two-col,
-      .actions {
+      .actions,
+      .image-tools {
         grid-template-columns: 1fr;
       }
 
@@ -488,7 +656,19 @@
           </div>
         </div>
       </div>
+      <div class="topbar-inner topbar-actions">
+        <button class="secondary-btn" id="displayModeBtn" onclick="toggleDisplayMode()">进入展示模式</button>
+      </div>
     </header>
+
+    <section class="showcase-hero">
+      <div class="showcase-copy">
+        <span>SEVENTEEN INSPIRED JOURNAL</span>
+        <h2>把今天的心动做成一页粉蓝手账</h2>
+        <p>适合记录舞台、视频、截图、repo 和一点点只属于你的心情。</p>
+      </div>
+      <div class="showcase-mark"><span>17</span></div>
+    </section>
 
     <main class="layout">
       <section class="panel editor">
@@ -543,6 +723,17 @@
         </div>
 
         <div class="field">
+          <label for="imageFile">上传图片</label>
+          <div class="image-tools">
+            <input id="imageFile" type="file" accept="image/*" onchange="handleImageUpload(event)">
+            <button class="secondary-btn" type="button" onclick="removeImage()">移除图片</button>
+          </div>
+          <div class="image-preview" id="imagePreview">
+            <img id="imagePreviewImg" alt="图片预览">
+          </div>
+        </div>
+
+        <div class="field">
           <label for="tags">标签</label>
           <input id="tags" placeholder="用逗号分开，比如 舞台, 直拍, 生日">
         </div>
@@ -574,8 +765,9 @@
             <option value="全部">全部记录</option>
             <option value="收藏">只看收藏</option>
           </select>
-          <button class="secondary-btn" onclick="exportBackup()">导出备份</button>
-          <button class="secondary-btn" onclick="chooseBackupFile()">导入备份</button>
+          <button class="secondary-btn backup-control" onclick="exportBackup()">导出备份</button>
+          <button class="secondary-btn backup-control" onclick="chooseBackupFile()">导入备份</button>
+          <button class="secondary-btn" onclick="toggleDisplayMode()">展示模式</button>
           <input id="backupFile" type="file" accept=".json,application/json" onchange="importBackup(event)" hidden>
         </div>
 
@@ -588,6 +780,8 @@
     const storageKey = "starLifeJournalEntries";
     let entries = JSON.parse(localStorage.getItem(storageKey) || "[]");
     let editingId = null;
+    let currentImageData = "";
+    let displayMode = false;
 
     const sampleEntries = [
       {
@@ -600,6 +794,7 @@
         link: "https://example.com",
         tags: "舞台, 直拍",
         content: "这里可以写你看完视频之后的感受，也可以贴视频链接，之后用搜索找回来。",
+        image: "",
         favorite: true
       },
       {
@@ -612,6 +807,7 @@
         link: "",
         tags: "日常, 手账",
         content: "这是一个示例记录。你可以编辑它，也可以删除它。",
+        image: "",
         favorite: false
       }
     ];
@@ -649,7 +845,8 @@
         mood: document.getElementById("mood").value,
         link: document.getElementById("link").value.trim(),
         tags: document.getElementById("tags").value.trim(),
-        content: document.getElementById("content").value.trim()
+        content: document.getElementById("content").value.trim(),
+        image: currentImageData
       };
     }
 
@@ -691,8 +888,10 @@
       document.getElementById("idol").value = "";
       document.getElementById("mood").value = "开心";
       document.getElementById("link").value = "";
+      document.getElementById("imageFile").value = "";
       document.getElementById("tags").value = "";
       document.getElementById("content").value = "";
+      removeImagePreview();
     }
 
     function renderEntries() {
@@ -710,7 +909,8 @@
           entry.mood,
           entry.link,
           entry.tags,
-          entry.content
+          entry.content,
+          entry.image ? "图片" : ""
         ].join(" ").toLowerCase();
 
         const matchKeyword = text.includes(keyword);
@@ -784,6 +984,14 @@
           addBadge(tagMeta, "#" + tag);
         });
         article.appendChild(tagMeta);
+      }
+
+      if (entry.image) {
+        const image = document.createElement("img");
+        image.className = "entry-image";
+        image.src = entry.image;
+        image.alt = entry.title + " 的图片";
+        article.appendChild(image);
       }
 
       const content = document.createElement("p");
@@ -864,7 +1072,62 @@
       document.getElementById("link").value = entry.link || "";
       document.getElementById("tags").value = entry.tags || "";
       document.getElementById("content").value = entry.content;
+      currentImageData = entry.image || "";
+      showImagePreview(currentImageData);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        alert("请选择图片文件。");
+        event.target.value = "";
+        return;
+      }
+
+      if (file.size > 1024 * 1024 * 2) {
+        alert("图片太大了。先选 2MB 以内的图片，备份文件会更稳。");
+        event.target.value = "";
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function() {
+        currentImageData = reader.result;
+        showImagePreview(currentImageData);
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    function showImagePreview(imageData) {
+      const preview = document.getElementById("imagePreview");
+      const image = document.getElementById("imagePreviewImg");
+
+      if (!imageData) {
+        removeImagePreview();
+        return;
+      }
+
+      image.src = imageData;
+      preview.style.display = "block";
+    }
+
+    function removeImage() {
+      document.getElementById("imageFile").value = "";
+      removeImagePreview();
+    }
+
+    function removeImagePreview() {
+      currentImageData = "";
+      document.getElementById("imagePreviewImg").removeAttribute("src");
+      document.getElementById("imagePreview").style.display = "none";
     }
 
     function deleteEntry(id) {
@@ -898,6 +1161,12 @@
 
       saveEntries();
       renderEntries();
+    }
+
+    function toggleDisplayMode() {
+      displayMode = !displayMode;
+      document.body.classList.toggle("display-mode", displayMode);
+      document.getElementById("displayModeBtn").textContent = displayMode ? "退出展示模式" : "进入展示模式";
     }
 
     function exportBackup() {
