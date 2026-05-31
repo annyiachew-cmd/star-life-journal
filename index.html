@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>追星生活手账</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#2c2a27">
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --paper: #fffdf8;
+      --ink: #242424;
+      --muted: #6f6a62;
+      --line: #ded6ca;
+      --accent: #8f4f3f;
+      --accent-dark: #693528;
+      --blue: #385f7f;
+      --green: #517563;
+      --danger: #a64040;
+      --shadow: 0 14px 32px rgba(48, 38, 27, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: #2c2a27;
+      color: #fffaf2;
+      padding: 18px 24px;
+      border-bottom: 4px solid #c59668;
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .brand span {
+      color: #d7cec1;
+      font-size: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(84px, 1fr));
+      gap: 10px;
+      min-width: 310px;
+    }
+
+    .stat {
+      background: rgba(255, 250, 242, 0.10);
+      border: 1px solid rgba(255, 250, 242, 0.20);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: #d7cec1;
+      font-size: 12px;
+    }
+
+    .layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(300px, 380px) 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .editor {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #cabfaf;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(143, 79, 63, 0.14);
+    }
+
+    .field textarea {
+      min-height: 142px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .small-btn {
+      border-radius: 6px;
+      min-height: 40px;
+      padding: 9px 13px;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: white;
+    }
+
+    .primary-btn:hover {
+      background: var(--accent-dark);
+    }
+
+    .secondary-btn {
+      background: #ece5da;
+      color: #3f3830;
+    }
+
+    .danger-btn {
+      background: var(--danger);
+      color: white;
+    }
+
+    .small-btn {
+      background: #ece5da;
+      color: #3f3830;
+      min-height: 34px;
+      padding: 7px 10px;
+      font-size: 14px;
+    }
+
+    .toolbar {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr 160px 130px auto auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      width: 100%;
+      border: 1px solid #cabfaf;
+      border-radius: 6px;
+      padding: 10px 11px;
+      background: #fff;
+    }
+
+    .entries {
+      display: grid;
+      gap: 12px;
+    }
+
+    .entry {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .entry h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .entry-meta {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: #efe8dd;
+      color: #564a40;
+    }
+
+    .badge.video {
+      background: #e4edf4;
+      color: var(--blue);
+    }
+
+    .badge.diary {
+      background: #f1e3dc;
+      color: var(--accent);
+    }
+
+    .badge.journal {
+      background: #e3ede6;
+      color: var(--green);
+    }
+
+    .content {
+      margin: 12px 0 0;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .entry-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--accent-dark);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(105, 53, 40, 0.35);
+    }
+
+    .entry-link:hover {
+      border-bottom-color: var(--accent-dark);
+    }
+
+    .entry-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .empty {
+      padding: 34px 18px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 253, 248, 0.62);
+      border: 1px dashed #cbbfaf;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .topbar-inner {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .stats {
+        min-width: 0;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+
+      .editor {
+        position: static;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topbar {
+        padding: 16px;
+      }
+
+      .brand h1 {
+        font-size: 21px;
+      }
+
+      .stats,
+      .two-col,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-head {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <h1>追星生活手账</h1>
+          <span>日记、舞台、视频、repo 和灵感都放在这里</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong id="totalCount">0</strong>
+            <span>全部记录</span>
+          </div>
+          <div class="stat">
+            <strong id="videoCount">0</strong>
+            <span>视频相关</span>
+          </div>
+          <div class="stat">
+            <strong id="favoriteCount">0</strong>
+            <span>已收藏</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel editor">
+        <h2 class="section-title" id="formTitle">新增记录</h2>
+
+        <div class="field">
+          <label for="title">标题</label>
+          <input id="title" placeholder="比如：今晚的舞台太漂亮了">
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="date">日期</label>
+            <input id="date" type="date">
+          </div>
+
+          <div class="field">
+            <label for="category">分类</label>
+            <select id="category">
+              <option>日记</option>
+              <option>视频</option>
+              <option>手账</option>
+              <option>舞台</option>
+              <option>物料</option>
+              <option>repo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="idol">相关人物/组合</label>
+            <input id="idol" placeholder="可不填">
+          </div>
+
+          <div class="field">
+            <label for="mood">心情</label>
+            <select id="mood">
+              <option>开心</option>
+              <option>感动</option>
+              <option>震撼</option>
+              <option>想念</option>
+              <option>平静</option>
+              <option>其他</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="link">视频/图片/帖子链接</label>
+          <input id="link" placeholder="可不填，比如 B站、微博、YouTube 链接">
+        </div>
+
+        <div class="field">
+          <label for="tags">标签</label>
+          <input id="tags" placeholder="用逗号分开，比如 舞台, 直拍, 生日">
+        </div>
+
+        <div class="field">
+          <label for="content">正文</label>
+          <textarea id="content" placeholder="写下今天想留下来的内容"></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="primary-btn" id="saveBtn" onclick="saveEntry()">保存记录</button>
+          <button class="secondary-btn" onclick="resetForm()">清空</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="panel toolbar">
+          <input id="search" placeholder="搜索标题、正文、标签、人物或日期" oninput="renderEntries()">
+          <select id="filterCategory" onchange="renderEntries()">
+            <option value="全部">全部分类</option>
+            <option>日记</option>
+            <option>视频</option>
+            <option>手账</option>
+            <option>舞台</option>
+            <option>物料</option>
+            <option>repo</option>
+          </select>
+          <select id="filterFavorite" onchange="renderEntries()">
+            <option value="全部">全部记录</option>
+            <option value="收藏">只看收藏</option>
+          </select>
+          <button class="secondary-btn" onclick="exportBackup()">导出备份</button>
+          <button class="secondary-btn" onclick="chooseBackupFile()">导入备份</button>
+          <input id="backupFile" type="file" accept=".json,application/json" onchange="importBackup(event)" hidden>
+        </div>
+
+        <div id="entries" class="entries"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const storageKey = "starLifeJournalEntries";
+    let entries = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    let editingId = null;
+
+    const sampleEntries = [
+      {
+        id: makeId(),
+        title: "示例：收藏一支舞台视频",
+        date: getToday(),
+        category: "视频",
+        idol: "示例组合",
+        mood: "开心",
+        link: "https://example.com",
+        tags: "舞台, 直拍",
+        content: "这里可以写你看完视频之后的感受，也可以贴视频链接，之后用搜索找回来。",
+        favorite: true
+      },
+      {
+        id: makeId(),
+        title: "示例：今天的小日记",
+        date: getToday(),
+        category: "日记",
+        idol: "",
+        mood: "平静",
+        link: "",
+        tags: "日常, 手账",
+        content: "这是一个示例记录。你可以编辑它，也可以删除它。",
+        favorite: false
+      }
+    ];
+
+    if (entries.length === 0) {
+      entries = sampleEntries;
+      saveEntries();
+    }
+
+    document.getElementById("date").value = getToday();
+    renderEntries();
+
+    function makeId() {
+      return String(Date.now()) + String(Math.floor(Math.random() * 100000));
+    }
+
+    function getToday() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
+
+    function saveEntries() {
+      localStorage.setItem(storageKey, JSON.stringify(entries));
+    }
+
+    function getFormData() {
+      return {
+        title: document.getElementById("title").value.trim(),
+        date: document.getElementById("date").value,
+        category: document.getElementById("category").value,
+        idol: document.getElementById("idol").value.trim(),
+        mood: document.getElementById("mood").value,
+        link: document.getElementById("link").value.trim(),
+        tags: document.getElementById("tags").value.trim(),
+        content: document.getElementById("content").value.trim()
+      };
+    }
+
+    function saveEntry() {
+      const data = getFormData();
+
+      if (!data.title || !data.content) {
+        alert("标题和正文要填一下。");
+        return;
+      }
+
+      if (editingId) {
+        entries = entries.map(function(entry) {
+          if (entry.id !== editingId) {
+            return entry;
+          }
+
+          return Object.assign({}, entry, data);
+        });
+      } else {
+        entries.unshift(Object.assign({}, data, {
+          id: makeId(),
+          favorite: false
+        }));
+      }
+
+      saveEntries();
+      resetForm();
+      renderEntries();
+    }
+
+    function resetForm() {
+      editingId = null;
+      document.getElementById("formTitle").textContent = "新增记录";
+      document.getElementById("saveBtn").textContent = "保存记录";
+      document.getElementById("title").value = "";
+      document.getElementById("date").value = getToday();
+      document.getElementById("category").value = "日记";
+      document.getElementById("idol").value = "";
+      document.getElementById("mood").value = "开心";
+      document.getElementById("link").value = "";
+      document.getElementById("tags").value = "";
+      document.getElementById("content").value = "";
+    }
+
+    function renderEntries() {
+      const container = document.getElementById("entries");
+      const keyword = document.getElementById("search").value.trim().toLowerCase();
+      const category = document.getElementById("filterCategory").value;
+      const favoriteFilter = document.getElementById("filterFavorite").value;
+
+      const filtered = entries.filter(function(entry) {
+        const text = [
+          entry.title,
+          entry.date,
+          entry.category,
+          entry.idol,
+          entry.mood,
+          entry.link,
+          entry.tags,
+          entry.content
+        ].join(" ").toLowerCase();
+
+        const matchKeyword = text.includes(keyword);
+        const matchCategory = category === "全部" || entry.category === category;
+        const matchFavorite = favoriteFilter === "全部" || entry.favorite;
+
+        return matchKeyword && matchCategory && matchFavorite;
+      });
+
+      updateStats();
+      container.innerHTML = "";
+
+      if (filtered.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "没有找到记录。换个关键词，或者先新增一条。";
+        container.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(function(entry) {
+        container.appendChild(createEntryElement(entry));
+      });
+    }
+
+    function createEntryElement(entry) {
+      const article = document.createElement("article");
+      article.className = "entry";
+
+      const head = document.createElement("div");
+      head.className = "entry-head";
+
+      const titleBox = document.createElement("div");
+      const title = document.createElement("h2");
+      title.textContent = entry.title;
+      titleBox.appendChild(title);
+
+      const meta = document.createElement("div");
+      meta.className = "entry-meta";
+      addBadge(meta, entry.date || "未选日期");
+      addBadge(meta, entry.category, getCategoryClass(entry.category));
+      addBadge(meta, entry.mood || "未选心情");
+
+      if (entry.idol) {
+        addBadge(meta, entry.idol);
+      }
+
+      if (entry.favorite) {
+        addBadge(meta, "收藏");
+      }
+
+      titleBox.appendChild(meta);
+      head.appendChild(titleBox);
+
+      const favoriteBtn = document.createElement("button");
+      favoriteBtn.className = "small-btn";
+      favoriteBtn.textContent = entry.favorite ? "取消收藏" : "收藏";
+      favoriteBtn.onclick = function() {
+        toggleFavorite(entry.id);
+      };
+      head.appendChild(favoriteBtn);
+
+      article.appendChild(head);
+
+      if (entry.tags) {
+        const tagMeta = document.createElement("div");
+        tagMeta.className = "entry-meta";
+        entry.tags.split(",").map(function(tag) {
+          return tag.trim();
+        }).filter(Boolean).forEach(function(tag) {
+          addBadge(tagMeta, "#" + tag);
+        });
+        article.appendChild(tagMeta);
+      }
+
+      const content = document.createElement("p");
+      content.className = "content";
+      content.textContent = entry.content;
+      article.appendChild(content);
+
+      if (entry.link) {
+        const link = document.createElement("a");
+        link.className = "entry-link";
+        link.href = entry.link;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.textContent = "打开链接";
+        article.appendChild(link);
+      }
+
+      const actions = document.createElement("div");
+      actions.className = "entry-actions";
+
+      const editBtn = document.createElement("button");
+      editBtn.className = "small-btn";
+      editBtn.textContent = "编辑";
+      editBtn.onclick = function() {
+        editEntry(entry.id);
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "danger-btn small-btn";
+      deleteBtn.textContent = "删除";
+      deleteBtn.onclick = function() {
+        deleteEntry(entry.id);
+      };
+
+      actions.appendChild(editBtn);
+      actions.appendChild(deleteBtn);
+      article.appendChild(actions);
+
+      return article;
+    }
+
+    function addBadge(container, text, extraClass) {
+      const badge = document.createElement("span");
+      badge.className = "badge" + (extraClass ? " " + extraClass : "");
+      badge.textContent = text;
+      container.appendChild(badge);
+    }
+
+    function getCategoryClass(category) {
+      if (category === "视频" || category === "舞台") {
+        return "video";
+      }
+
+      if (category === "手账" || category === "repo") {
+        return "journal";
+      }
+
+      return "diary";
+    }
+
+    function editEntry(id) {
+      const entry = entries.find(function(item) {
+        return item.id === id;
+      });
+
+      if (!entry) {
+        return;
+      }
+
+      editingId = id;
+      document.getElementById("formTitle").textContent = "编辑记录";
+      document.getElementById("saveBtn").textContent = "保存修改";
+      document.getElementById("title").value = entry.title;
+      document.getElementById("date").value = entry.date;
+      document.getElementById("category").value = entry.category;
+      document.getElementById("idol").value = entry.idol || "";
+      document.getElementById("mood").value = entry.mood || "开心";
+      document.getElementById("link").value = entry.link || "";
+      document.getElementById("tags").value = entry.tags || "";
+      document.getElementById("content").value = entry.content;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function deleteEntry(id) {
+      const sure = confirm("确定要删除这条记录吗？");
+
+      if (!sure) {
+        return;
+      }
+
+      entries = entries.filter(function(entry) {
+        return entry.id !== id;
+      });
+      saveEntries();
+      renderEntries();
+
+      if (editingId === id) {
+        resetForm();
+      }
+    }
+
+    function toggleFavorite(id) {
+      entries = entries.map(function(entry) {
+        if (entry.id !== id) {
+          return entry;
+        }
+
+        return Object.assign({}, entry, {
+          favorite: !entry.favorite
+        });
+      });
+
+      saveEntries();
+      renderEntries();
+    }
+
+    function exportBackup() {
+      const data = {
+        app: "star-life-journal",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        entries: entries
+      };
+      const text = JSON.stringify(data, null, 2);
+      const blob = new Blob([text], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "star-journal-backup-" + getToday() + ".json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function chooseBackupFile() {
+      document.getElementById("backupFile").click();
+    }
+
+    function importBackup(event) {
+      const file = event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function() {
+        try {
+          const data = JSON.parse(reader.result);
+          const importedEntries = Array.isArray(data) ? data : data.entries;
+
+          if (!Array.isArray(importedEntries)) {
+            alert("这个文件不像是追星手账的备份文件。");
+            return;
+          }
+
+          const sure = confirm("导入会替换当前所有记录。确定继续吗？");
+
+          if (!sure) {
+            return;
+          }
+
+          entries = importedEntries;
+          saveEntries();
+          resetForm();
+          renderEntries();
+          alert("导入成功。");
+        } catch (error) {
+          alert("导入失败，文件内容可能不正确。");
+        } finally {
+          event.target.value = "";
+        }
+      };
+
+      reader.readAsText(file);
+    }
+
+    function updateStats() {
+      document.getElementById("totalCount").textContent = entries.length;
+      document.getElementById("videoCount").textContent = entries.filter(function(entry) {
+        return entry.category === "视频" || entry.category === "舞台";
+      }).length;
+      document.getElementById("favoriteCount").textContent = entries.filter(function(entry) {
+        return entry.favorite;
+      }).length;
+    }
+  </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker.register("sw.js");
+      });
+    }
+  </script>
+</body>
+</html>

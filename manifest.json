@@ -1,0 +1,17 @@
+{
+  "name": "追星生活手账",
+  "short_name": "追星手账",
+  "description": "记录追星日记、视频链接、手账、舞台和收藏。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f1ea",
+  "theme_color": "#2c2a27",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
