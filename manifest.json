@@ -4,8 +4,8 @@
   "description": "记录追星日记、视频链接、手账、舞台和收藏。",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f4f1ea",
-  "theme_color": "#2c2a27",
+  "background_color": "#f8fbff",
+  "theme_color": "#f3a8c7",
   "icons": [
     {
       "src": "icon.svg",

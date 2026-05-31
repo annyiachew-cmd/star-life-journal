@@ -6,20 +6,23 @@
   <title>追星生活手账</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#2c2a27">
+  <meta name="theme-color" content="#f3a8c7">
   <style>
     :root {
-      --bg: #f4f1ea;
-      --paper: #fffdf8;
-      --ink: #242424;
-      --muted: #6f6a62;
-      --line: #ded6ca;
-      --accent: #8f4f3f;
-      --accent-dark: #693528;
-      --blue: #385f7f;
-      --green: #517563;
-      --danger: #a64040;
-      --shadow: 0 14px 32px rgba(48, 38, 27, 0.10);
+      --bg: #f8fbff;
+      --paper: rgba(255, 255, 255, 0.88);
+      --ink: #202437;
+      --muted: #66708d;
+      --line: rgba(133, 159, 210, 0.30);
+      --accent: #e88ab4;
+      --accent-dark: #b95f8b;
+      --blue: #6e9ee8;
+      --green: #5d8f93;
+      --danger: #c95f78;
+      --serenity: #8eb8f2;
+      --quartz: #f3a8c7;
+      --gold: #d6a85f;
+      --shadow: 0 18px 42px rgba(74, 99, 159, 0.16);
     }
 
     * {
@@ -29,7 +32,10 @@
     body {
       margin: 0;
       font-family: Arial, "Microsoft YaHei", sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(243, 168, 199, 0.42), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(142, 184, 242, 0.48), transparent 30%),
+        linear-gradient(135deg, #fff7fb 0%, #eef6ff 52%, #fffdf8 100%);
       color: var(--ink);
     }
 
@@ -47,16 +53,47 @@
 
     .app {
       min-height: 100vh;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.34) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.34) 1px, transparent 1px);
+      background-size: 34px 34px;
     }
 
     .topbar {
-      background: #2c2a27;
-      color: #fffaf2;
-      padding: 18px 24px;
-      border-bottom: 4px solid #c59668;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(115deg, rgba(243, 168, 199, 0.94), rgba(142, 184, 242, 0.96)),
+        #f3a8c7;
+      color: #1f253c;
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: 0 14px 32px rgba(80, 102, 164, 0.18);
+    }
+
+    .topbar::before {
+      content: "◇ 17 ◇";
+      position: absolute;
+      right: 36px;
+      top: -18px;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 92px;
+      font-weight: 700;
+      letter-spacing: 0;
+      pointer-events: none;
+    }
+
+    .topbar::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 5px;
+      background: linear-gradient(90deg, #f3a8c7, #ffffff, #8eb8f2, #d6a85f);
     }
 
     .topbar-inner {
+      position: relative;
+      z-index: 1;
       max-width: 1180px;
       margin: 0 auto;
       display: flex;
@@ -66,20 +103,51 @@
     }
 
     .brand {
+      position: relative;
+      padding-left: 58px;
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
+    .brand::before {
+      content: "17";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 42px;
+      height: 42px;
+      transform: translateY(-50%) rotate(45deg);
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.36);
+      color: #2d3658;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(76, 88, 145, 0.14);
+    }
+
+    .brand::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      width: 22px;
+      height: 22px;
+      transform: translateY(-50%) rotate(45deg);
+      border: 1px solid rgba(214, 168, 95, 0.76);
+      pointer-events: none;
+    }
+
     .brand h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 26px;
       line-height: 1.2;
       letter-spacing: 0;
     }
 
     .brand span {
-      color: #d7cec1;
+      color: rgba(31, 37, 60, 0.74);
       font-size: 14px;
     }
 
@@ -91,10 +159,11 @@
     }
 
     .stat {
-      background: rgba(255, 250, 242, 0.10);
-      border: 1px solid rgba(255, 250, 242, 0.20);
+      background: rgba(255, 255, 255, 0.34);
+      border: 1px solid rgba(255, 255, 255, 0.56);
       border-radius: 8px;
       padding: 10px 12px;
+      backdrop-filter: blur(10px);
     }
 
     .stat strong {
@@ -106,7 +175,7 @@
     .stat span {
       display: block;
       margin-top: 6px;
-      color: #d7cec1;
+      color: rgba(31, 37, 60, 0.66);
       font-size: 12px;
     }
 
@@ -125,6 +194,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
     }
 
     .editor {
@@ -155,9 +225,9 @@
     .field select,
     .field textarea {
       width: 100%;
-      border: 1px solid #cabfaf;
+      border: 1px solid rgba(133, 159, 210, 0.38);
       border-radius: 6px;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.88);
       color: var(--ink);
       padding: 10px 11px;
       outline: none;
@@ -167,7 +237,7 @@
     .field select:focus,
     .field textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(143, 79, 63, 0.14);
+      box-shadow: 0 0 0 3px rgba(243, 168, 199, 0.28);
     }
 
     .field textarea {
@@ -199,17 +269,19 @@
     }
 
     .primary-btn {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--serenity));
       color: white;
+      box-shadow: 0 10px 20px rgba(232, 138, 180, 0.28);
     }
 
     .primary-btn:hover {
-      background: var(--accent-dark);
+      background: linear-gradient(135deg, var(--accent-dark), #6b97dd);
     }
 
     .secondary-btn {
-      background: #ece5da;
-      color: #3f3830;
+      background: rgba(255, 255, 255, 0.74);
+      color: #344067;
+      border: 1px solid rgba(133, 159, 210, 0.34);
     }
 
     .danger-btn {
@@ -218,8 +290,9 @@
     }
 
     .small-btn {
-      background: #ece5da;
-      color: #3f3830;
+      background: rgba(255, 255, 255, 0.74);
+      color: #344067;
+      border: 1px solid rgba(133, 159, 210, 0.34);
       min-height: 34px;
       padding: 7px 10px;
       font-size: 14px;
@@ -236,10 +309,10 @@
     .toolbar input,
     .toolbar select {
       width: 100%;
-      border: 1px solid #cabfaf;
+      border: 1px solid rgba(133, 159, 210, 0.38);
       border-radius: 6px;
       padding: 10px 11px;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.88);
     }
 
     .entries {
@@ -253,6 +326,16 @@
       border-radius: 8px;
       box-shadow: var(--shadow);
       padding: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--quartz), var(--serenity));
     }
 
     .entry-head {
@@ -281,22 +364,23 @@
     .badge {
       border-radius: 999px;
       padding: 4px 9px;
-      background: #efe8dd;
-      color: #564a40;
+      background: rgba(255, 255, 255, 0.78);
+      color: #4e5a84;
+      border: 1px solid rgba(133, 159, 210, 0.26);
     }
 
     .badge.video {
-      background: #e4edf4;
+      background: rgba(142, 184, 242, 0.20);
       color: var(--blue);
     }
 
     .badge.diary {
-      background: #f1e3dc;
+      background: rgba(243, 168, 199, 0.24);
       color: var(--accent);
     }
 
     .badge.journal {
-      background: #e3ede6;
+      background: rgba(214, 168, 95, 0.18);
       color: var(--green);
     }
 
@@ -312,7 +396,7 @@
       margin-top: 10px;
       color: var(--accent-dark);
       text-decoration: none;
-      border-bottom: 1px solid rgba(105, 53, 40, 0.35);
+      border-bottom: 1px solid rgba(185, 95, 139, 0.35);
     }
 
     .entry-link:hover {
@@ -330,8 +414,8 @@
       padding: 34px 18px;
       text-align: center;
       color: var(--muted);
-      background: rgba(255, 253, 248, 0.62);
-      border: 1px dashed #cbbfaf;
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px dashed rgba(133, 159, 210, 0.48);
       border-radius: 8px;
     }
 
