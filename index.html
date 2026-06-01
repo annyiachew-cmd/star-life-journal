@@ -59,38 +59,6 @@
       background-size: 34px 34px;
     }
 
-    .menu-toggle {
-      position: absolute;
-      z-index: 4;
-      left: 18px;
-      top: 18px;
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.44);
-      border: 1px solid rgba(255, 255, 255, 0.76);
-      color: #2d3658;
-      box-shadow: 0 14px 30px rgba(74, 99, 159, 0.18);
-      backdrop-filter: blur(18px) saturate(150%);
-    }
-
-    .menu-toggle span,
-    .menu-toggle::before,
-    .menu-toggle::after {
-      content: "";
-      width: 19px;
-      height: 2px;
-      border-radius: 99px;
-      background: currentColor;
-      display: block;
-    }
-
-    .menu-toggle span {
-      margin: 5px 0;
-    }
-
     .drawer-backdrop {
       position: fixed;
       inset: 0;
@@ -271,20 +239,23 @@
 
     .brand {
       position: relative;
-      padding-left: 70px;
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      align-items: center;
+      column-gap: 14px;
+    }
+
+    .brand-text {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
-    .brand::before {
-      content: "17";
-      position: absolute;
-      left: 0;
-      top: 50%;
+    .brand-mark {
       width: 42px;
       height: 42px;
-      transform: translateY(-50%) rotate(45deg);
+      margin-left: 6px;
+      transform: rotate(45deg);
       display: grid;
       place-items: center;
       border: 2px solid rgba(255, 255, 255, 0.82);
@@ -292,18 +263,37 @@
       color: #2d3658;
       font-weight: 700;
       box-shadow: 0 10px 24px rgba(76, 88, 145, 0.14);
+      overflow: hidden;
+      position: relative;
     }
 
-    .brand::after {
+    .brand-mark::after {
       content: "";
       position: absolute;
-      left: 10px;
-      top: 50%;
       width: 22px;
       height: 22px;
-      transform: translateY(-50%) rotate(45deg);
       border: 1px solid rgba(214, 168, 95, 0.76);
       pointer-events: none;
+    }
+
+    .brand-mark span,
+    .brand-mark img {
+      transform: rotate(-45deg);
+    }
+
+    .brand-mark img {
+      width: 76px;
+      height: 76px;
+      object-fit: cover;
+      display: none;
+    }
+
+    .brand-mark.has-image span {
+      display: none;
+    }
+
+    .brand-mark.has-image img {
+      display: block;
     }
 
     .brand h1 {
@@ -733,6 +723,7 @@
     }
 
     .display-mode .editor,
+    .display-mode .toolbar,
     .display-mode .entry-actions {
       display: none;
     }
@@ -740,15 +731,6 @@
     .display-mode .layout {
       grid-template-columns: 1fr;
       max-width: 1040px;
-    }
-
-    .display-mode .toolbar {
-      grid-template-columns: 1fr 150px 130px auto;
-    }
-
-    .display-mode .toolbar .backup-control,
-    .display-mode .toolbar input[type="file"] {
-      display: none;
     }
 
     .display-mode .entries {
@@ -835,11 +817,16 @@
 
   <div class="app">
     <header class="topbar">
-      <button class="menu-toggle" onclick="openDrawer()" aria-label="打开分类菜单"><span></span></button>
       <div class="topbar-inner">
         <div class="brand">
-          <h1>追星生活手账</h1>
-          <span>日记、舞台、视频、repo 和灵感都放在这里</span>
+          <button class="brand-mark" id="brandMark" onclick="openDrawer()" aria-label="打开分类菜单">
+            <span>17</span>
+            <img id="brandMarkImg" alt="自定义标志图片">
+          </button>
+          <div class="brand-text">
+            <h1>追星生活手账</h1>
+            <span>日记、舞台、视频、repo 和灵感都放在这里</span>
+          </div>
         </div>
 
         <div class="stats">
@@ -864,9 +851,9 @@
 
     <section class="showcase-hero">
       <div class="showcase-copy">
-        <span>SEVENTEEN INSPIRED JOURNAL</span>
-        <h2>把今天的心动做成一页粉蓝手账</h2>
-        <p>适合记录舞台、视频、截图、repo 和一点点只属于你的心情。</p>
+        <span id="quoteSource">SEVENTEEN</span>
+        <h2 id="quoteText">把今天的心动做成一页粉蓝手账</h2>
+        <p id="quoteSubtext">适合记录舞台、视频、截图、repo 和一点点只属于你的心情。</p>
       </div>
       <div class="showcase-mark"><span>17</span></div>
     </section>
@@ -921,6 +908,14 @@
         <div class="field">
           <label for="link">视频/图片/帖子链接</label>
           <input id="link" placeholder="可不填，比如 B站、微博、YouTube 链接">
+        </div>
+
+        <div class="field">
+          <label for="brandImageFile">顶部标志图片</label>
+          <div class="image-tools">
+            <input id="brandImageFile" type="file" accept="image/*" onchange="handleBrandImageUpload(event)">
+            <button class="secondary-btn" type="button" onclick="removeBrandImage()">恢复 17</button>
+          </div>
         </div>
 
         <div class="field">
@@ -979,11 +974,41 @@
 
   <script>
     const storageKey = "starLifeJournalEntries";
+    const brandImageKey = "starLifeJournalBrandImage";
+    const maxUploadSize = 1024 * 1024 * 30;
     let entries = JSON.parse(localStorage.getItem(storageKey) || "[]");
     let editingId = null;
     let currentImageData = "";
     let currentImageTone = null;
     let displayMode = false;
+
+    const quotes = [
+      {
+        member: "SEVENTEEN",
+        text: "把今天的心动做成一页粉蓝手账",
+        subtext: "适合记录舞台、视频、截图、repo 和一点点只属于你的心情。"
+      },
+      {
+        member: "SEVENTEEN",
+        text: "今天也把喜欢认真收藏起来",
+        subtext: "把小片段、小截图、小心情都留在这里。"
+      },
+      {
+        member: "SEVENTEEN",
+        text: "这一刻值得被好好记录",
+        subtext: "舞台、物料、日记和灵感都可以慢慢整理。"
+      },
+      {
+        member: "SEVENTEEN",
+        text: "给喜欢的瞬间留一个漂亮位置",
+        subtext: "打开这一页，就像翻到自己的粉蓝手账。"
+      },
+      {
+        member: "SEVENTEEN",
+        text: "今天的快乐也和 SEVENTEEN 有关",
+        subtext: "把链接、图片和心情放在一起，之后再回来重看。"
+      }
+    ];
 
     const categories = [
       { name: "全部", icon: "ALL", hint: "查看所有记录" },
@@ -1033,6 +1058,8 @@
     }
 
     document.getElementById("date").value = getToday();
+    renderRandomQuote();
+    renderBrandImage();
     renderCategoryMenu();
     renderEntries();
 
@@ -1050,6 +1077,13 @@
 
     function saveEntries() {
       localStorage.setItem(storageKey, JSON.stringify(entries));
+    }
+
+    function renderRandomQuote() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById("quoteSource").textContent = quote.member;
+      document.getElementById("quoteText").textContent = quote.text;
+      document.getElementById("quoteSubtext").textContent = quote.subtext;
     }
 
     function getFormData() {
@@ -1319,23 +1353,106 @@
         return;
       }
 
-      if (file.size > 1024 * 1024 * 2) {
-        alert("图片太大了。先选 2MB 以内的图片，备份文件会更稳。");
+      if (file.size > maxUploadSize) {
+        alert("图片太大了。现在最多选择 30MB 以内的图片。");
         event.target.value = "";
         return;
       }
 
-      const reader = new FileReader();
-
-      reader.onload = function() {
-        currentImageData = reader.result;
+      compressImageFile(file, 1800, 0.86).then(function(imageData) {
+        currentImageData = imageData;
         showImagePreview(currentImageData);
-        extractImageTone(currentImageData).then(function(tone) {
+        return extractImageTone(currentImageData).then(function(tone) {
           currentImageTone = tone;
         });
-      };
+      }).catch(function() {
+        alert("图片处理失败，换一张试试。");
+        event.target.value = "";
+      });
+    }
 
-      reader.readAsDataURL(file);
+    function handleBrandImageUpload(event) {
+      const file = event.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        alert("请选择图片文件。");
+        event.target.value = "";
+        return;
+      }
+
+      if (file.size > maxUploadSize) {
+        alert("图片太大了。现在最多选择 30MB 以内的图片。");
+        event.target.value = "";
+        return;
+      }
+
+      compressImageFile(file, 500, 0.88).then(function(imageData) {
+        localStorage.setItem(brandImageKey, imageData);
+        renderBrandImage();
+      }).catch(function() {
+        alert("图片处理失败，换一张试试。");
+        event.target.value = "";
+      });
+    }
+
+    function renderBrandImage() {
+      const imageData = localStorage.getItem(brandImageKey);
+      const mark = document.getElementById("brandMark");
+      const image = document.getElementById("brandMarkImg");
+
+      if (!mark || !image) {
+        return;
+      }
+
+      if (!imageData) {
+        mark.classList.remove("has-image");
+        image.removeAttribute("src");
+        return;
+      }
+
+      image.src = imageData;
+      mark.classList.add("has-image");
+    }
+
+    function removeBrandImage() {
+      localStorage.removeItem(brandImageKey);
+      document.getElementById("brandImageFile").value = "";
+      renderBrandImage();
+    }
+
+    function compressImageFile(file, maxSize, quality) {
+      return new Promise(function(resolve, reject) {
+        const reader = new FileReader();
+
+        reader.onload = function() {
+          const image = new Image();
+
+          image.onload = function() {
+            const ratio = Math.min(1, maxSize / Math.max(image.width, image.height));
+            const width = Math.max(1, Math.round(image.width * ratio));
+            const height = Math.max(1, Math.round(image.height * ratio));
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const context = canvas.getContext("2d");
+            context.drawImage(image, 0, 0, width, height);
+
+            const type = file.type === "image/png" && file.size < 1024 * 1024 ? "image/png" : "image/jpeg";
+            resolve(canvas.toDataURL(type, quality));
+          };
+
+          image.onerror = reject;
+          image.src = reader.result;
+        };
+
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
 
     function showImagePreview(imageData) {
