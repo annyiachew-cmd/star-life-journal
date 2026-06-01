@@ -1,4 +1,4 @@
-const CACHE_NAME = "star-life-journal-v4";
+const CACHE_NAME = "star-life-journal-v5";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",

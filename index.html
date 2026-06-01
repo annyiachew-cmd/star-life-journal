@@ -59,6 +59,167 @@
       background-size: 34px 34px;
     }
 
+    .menu-toggle {
+      position: absolute;
+      z-index: 4;
+      left: 18px;
+      top: 18px;
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.44);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      color: #2d3658;
+      box-shadow: 0 14px 30px rgba(74, 99, 159, 0.18);
+      backdrop-filter: blur(18px) saturate(150%);
+    }
+
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      content: "";
+      width: 19px;
+      height: 2px;
+      border-radius: 99px;
+      background: currentColor;
+      display: block;
+    }
+
+    .menu-toggle span {
+      margin: 5px 0;
+    }
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      background: rgba(32, 36, 55, 0.22);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .side-drawer {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 10;
+      width: min(360px, 88vw);
+      padding: 22px;
+      transform: translateX(-105%);
+      transition: transform 220ms ease;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255, 183, 215, 0.58), transparent 30%),
+        radial-gradient(circle at 88% 18%, rgba(142, 190, 255, 0.48), transparent 34%),
+        rgba(255, 255, 255, 0.68);
+      border-right: 1px solid rgba(255, 255, 255, 0.74);
+      box-shadow: 24px 0 50px rgba(74, 99, 159, 0.22);
+      backdrop-filter: blur(22px) saturate(160%);
+      overflow-y: auto;
+    }
+
+    .drawer-open .drawer-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-open .side-drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .drawer-head h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .drawer-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .drawer-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.60);
+      border: 1px solid rgba(133, 159, 210, 0.32);
+      color: #344067;
+      font-size: 22px;
+    }
+
+    .category-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .category-tile {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 64px;
+      padding: 12px;
+      text-align: left;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      color: #26304f;
+      box-shadow: 0 12px 26px rgba(74, 99, 159, 0.10);
+      backdrop-filter: blur(14px);
+    }
+
+    .category-tile:hover {
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .category-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 175, 211, 0.62), rgba(142, 190, 255, 0.62));
+      color: #2d3658;
+      font-weight: 700;
+    }
+
+    .category-name {
+      display: block;
+      font-weight: 700;
+    }
+
+    .category-hint {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .category-count {
+      min-width: 30px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.70);
+      color: var(--accent-dark);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
     .topbar {
       position: relative;
       overflow: hidden;
@@ -110,7 +271,7 @@
 
     .brand {
       position: relative;
-      padding-left: 58px;
+      padding-left: 70px;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -205,11 +366,13 @@
       grid-template-columns: 1fr auto;
       gap: 18px;
       align-items: center;
-      background: rgba(255, 255, 255, 0.54);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.28)),
+        rgba(255, 255, 255, 0.38);
       border: 1px solid rgba(255, 255, 255, 0.72);
       border-radius: 8px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(22px) saturate(160%);
     }
 
     .showcase-hero::before {
@@ -217,8 +380,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 8% 25%, rgba(255, 175, 211, 0.36), transparent 25%),
-        radial-gradient(circle at 92% 12%, rgba(142, 190, 255, 0.42), transparent 30%);
+        radial-gradient(circle at 8% 25%, var(--hero-glow, rgba(255, 175, 211, 0.36)), transparent 25%),
+        radial-gradient(circle at 92% 12%, var(--hero-glow-2, rgba(142, 190, 255, 0.42)), transparent 30%);
       pointer-events: none;
     }
 
@@ -268,11 +431,13 @@
     }
 
     .panel {
-      background: var(--paper);
-      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.36)),
+        rgba(255, 255, 255, 0.44);
+      border: 1px solid rgba(255, 255, 255, 0.66);
       border-radius: 8px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(22px) saturate(155%);
     }
 
     .editor {
@@ -424,14 +589,17 @@
 
     .entry {
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 253, 0.88)),
+        radial-gradient(circle at 18% 6%, var(--entry-glow, rgba(255, 175, 211, 0.28)), transparent 32%),
+        radial-gradient(circle at 92% 18%, var(--entry-glow-2, rgba(142, 190, 255, 0.30)), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.80), rgba(255, 248, 253, 0.58)),
         var(--paper);
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255, 255, 255, 0.74);
       border-radius: 8px;
       box-shadow: var(--shadow);
       padding: 18px;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(20px) saturate(150%);
     }
 
     .entry::before {
@@ -509,10 +677,29 @@
     .entry-image {
       display: block;
       width: 100%;
-      aspect-ratio: 4 / 3;
-      max-height: 420px;
+      max-height: min(560px, 78vh);
+      object-fit: contain;
+      object-position: top center;
+      background:
+        radial-gradient(circle at 20% 10%, var(--entry-glow, rgba(255, 175, 211, 0.36)), transparent 38%),
+        radial-gradient(circle at 82% 20%, var(--entry-glow-2, rgba(142, 190, 255, 0.36)), transparent 40%),
+        rgba(255, 255, 255, 0.36);
+    }
+
+    .entry-image-frame {
+      width: 100%;
       margin-top: 14px;
-      object-fit: cover;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      background:
+        radial-gradient(circle at 10% 8%, var(--entry-glow, rgba(255, 175, 211, 0.35)), transparent 36%),
+        radial-gradient(circle at 90% 12%, var(--entry-glow-2, rgba(142, 190, 255, 0.35)), transparent 38%),
+        rgba(255, 255, 255, 0.42);
+      backdrop-filter: blur(18px) saturate(150%);
+    }
+
+    .entry-image-frame img {
       border-radius: 8px;
       border: 1px solid rgba(133, 159, 210, 0.28);
     }
@@ -633,8 +820,22 @@
   </style>
 </head>
 <body>
+  <div class="drawer-backdrop" onclick="closeDrawer()"></div>
+  <aside class="side-drawer" aria-label="分类菜单">
+    <div class="drawer-head">
+      <div>
+        <h2>分类菜单</h2>
+        <p>点一个分类，只看这一类记录。</p>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()" aria-label="关闭菜单">×</button>
+    </div>
+
+    <div class="category-grid" id="categoryMenu"></div>
+  </aside>
+
   <div class="app">
     <header class="topbar">
+      <button class="menu-toggle" onclick="openDrawer()" aria-label="打开分类菜单"><span></span></button>
       <div class="topbar-inner">
         <div class="brand">
           <h1>追星生活手账</h1>
@@ -781,7 +982,19 @@
     let entries = JSON.parse(localStorage.getItem(storageKey) || "[]");
     let editingId = null;
     let currentImageData = "";
+    let currentImageTone = null;
     let displayMode = false;
+
+    const categories = [
+      { name: "全部", icon: "ALL", hint: "查看所有记录" },
+      { name: "日记", icon: "D", hint: "日常心情和碎碎念" },
+      { name: "视频", icon: "V", hint: "视频链接和观后感" },
+      { name: "手账", icon: "J", hint: "拼贴、截图和灵感" },
+      { name: "舞台", icon: "S", hint: "舞台、直拍、现场" },
+      { name: "物料", icon: "M", hint: "杂志、照片、官方内容" },
+      { name: "repo", icon: "R", hint: "repo 和现场记录" },
+      { name: "收藏", icon: "★", hint: "只看收藏记录" }
+    ];
 
     const sampleEntries = [
       {
@@ -795,6 +1008,7 @@
         tags: "舞台, 直拍",
         content: "这里可以写你看完视频之后的感受，也可以贴视频链接，之后用搜索找回来。",
         image: "",
+        imageTone: null,
         favorite: true
       },
       {
@@ -808,6 +1022,7 @@
         tags: "日常, 手账",
         content: "这是一个示例记录。你可以编辑它，也可以删除它。",
         image: "",
+        imageTone: null,
         favorite: false
       }
     ];
@@ -818,6 +1033,7 @@
     }
 
     document.getElementById("date").value = getToday();
+    renderCategoryMenu();
     renderEntries();
 
     function makeId() {
@@ -846,7 +1062,8 @@
         link: document.getElementById("link").value.trim(),
         tags: document.getElementById("tags").value.trim(),
         content: document.getElementById("content").value.trim(),
-        image: currentImageData
+        image: currentImageData,
+        imageTone: currentImageTone
       };
     }
 
@@ -921,6 +1138,8 @@
       });
 
       updateStats();
+      updateHeroTone();
+      renderCategoryMenu();
       container.innerHTML = "";
 
       if (filtered.length === 0) {
@@ -939,6 +1158,11 @@
     function createEntryElement(entry) {
       const article = document.createElement("article");
       article.className = "entry";
+
+      if (entry.imageTone) {
+        article.style.setProperty("--entry-glow", entry.imageTone.primary);
+        article.style.setProperty("--entry-glow-2", entry.imageTone.secondary);
+      }
 
       const head = document.createElement("div");
       head.className = "entry-head";
@@ -987,11 +1211,15 @@
       }
 
       if (entry.image) {
+        const imageFrame = document.createElement("div");
+        imageFrame.className = "entry-image-frame";
+
         const image = document.createElement("img");
         image.className = "entry-image";
         image.src = entry.image;
         image.alt = entry.title + " 的图片";
-        article.appendChild(image);
+        imageFrame.appendChild(image);
+        article.appendChild(imageFrame);
       }
 
       const content = document.createElement("p");
@@ -1073,6 +1301,7 @@
       document.getElementById("tags").value = entry.tags || "";
       document.getElementById("content").value = entry.content;
       currentImageData = entry.image || "";
+      currentImageTone = entry.imageTone || null;
       showImagePreview(currentImageData);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1101,6 +1330,9 @@
       reader.onload = function() {
         currentImageData = reader.result;
         showImagePreview(currentImageData);
+        extractImageTone(currentImageData).then(function(tone) {
+          currentImageTone = tone;
+        });
       };
 
       reader.readAsDataURL(file);
@@ -1126,6 +1358,7 @@
 
     function removeImagePreview() {
       currentImageData = "";
+      currentImageTone = null;
       document.getElementById("imagePreviewImg").removeAttribute("src");
       document.getElementById("imagePreview").style.display = "none";
     }
@@ -1167,6 +1400,141 @@
       displayMode = !displayMode;
       document.body.classList.toggle("display-mode", displayMode);
       document.getElementById("displayModeBtn").textContent = displayMode ? "退出展示模式" : "进入展示模式";
+    }
+
+    function openDrawer() {
+      document.body.classList.add("drawer-open");
+    }
+
+    function closeDrawer() {
+      document.body.classList.remove("drawer-open");
+    }
+
+    function selectCategory(category) {
+      if (category === "收藏") {
+        document.getElementById("filterCategory").value = "全部";
+        document.getElementById("filterFavorite").value = "收藏";
+      } else {
+        document.getElementById("filterCategory").value = category;
+        document.getElementById("filterFavorite").value = "全部";
+      }
+
+      closeDrawer();
+      renderEntries();
+    }
+
+    function renderCategoryMenu() {
+      const container = document.getElementById("categoryMenu");
+
+      if (!container) {
+        return;
+      }
+
+      container.innerHTML = "";
+
+      categories.forEach(function(category) {
+        const button = document.createElement("button");
+        button.className = "category-tile";
+        button.onclick = function() {
+          selectCategory(category.name);
+        };
+
+        const icon = document.createElement("span");
+        icon.className = "category-icon";
+        icon.textContent = category.icon;
+
+        const text = document.createElement("span");
+        const name = document.createElement("span");
+        name.className = "category-name";
+        name.textContent = category.name;
+        const hint = document.createElement("span");
+        hint.className = "category-hint";
+        hint.textContent = category.hint;
+        text.appendChild(name);
+        text.appendChild(hint);
+
+        const count = document.createElement("span");
+        count.className = "category-count";
+        count.textContent = getCategoryCount(category.name);
+
+        button.appendChild(icon);
+        button.appendChild(text);
+        button.appendChild(count);
+        container.appendChild(button);
+      });
+    }
+
+    function getCategoryCount(category) {
+      if (category === "全部") {
+        return entries.length;
+      }
+
+      if (category === "收藏") {
+        return entries.filter(function(entry) {
+          return entry.favorite;
+        }).length;
+      }
+
+      return entries.filter(function(entry) {
+        return entry.category === category;
+      }).length;
+    }
+
+    function extractImageTone(imageData) {
+      return new Promise(function(resolve) {
+        const image = new Image();
+
+        image.onload = function() {
+          const canvas = document.createElement("canvas");
+          const size = 32;
+          canvas.width = size;
+          canvas.height = size;
+
+          const context = canvas.getContext("2d");
+          context.drawImage(image, 0, 0, size, size);
+
+          const pixels = context.getImageData(0, 0, size, size).data;
+          let left = { r: 0, g: 0, b: 0, count: 0 };
+          let right = { r: 0, g: 0, b: 0, count: 0 };
+
+          for (let y = 0; y < size; y += 1) {
+            for (let x = 0; x < size; x += 1) {
+              if (x > 4 && x < size - 5 && y > 4 && y < size - 5) {
+                continue;
+              }
+
+              const index = (y * size + x) * 4;
+              const bucket = x < size / 2 ? left : right;
+              bucket.r += pixels[index];
+              bucket.g += pixels[index + 1];
+              bucket.b += pixels[index + 2];
+              bucket.count += 1;
+            }
+          }
+
+          resolve({
+            primary: toGlowColor(left),
+            secondary: toGlowColor(right)
+          });
+        };
+
+        image.onerror = function() {
+          resolve(null);
+        };
+
+        image.src = imageData;
+      });
+    }
+
+    function toGlowColor(color) {
+      if (!color || !color.count) {
+        return "rgba(255, 175, 211, 0.30)";
+      }
+
+      const r = Math.round(color.r / color.count);
+      const g = Math.round(color.g / color.count);
+      const b = Math.round(color.b / color.count);
+      return "rgba(" + r + ", " + g + ", " + b + ", 0.32)";
     }
 
     function exportBackup() {
@@ -1241,6 +1609,21 @@
       document.getElementById("favoriteCount").textContent = entries.filter(function(entry) {
         return entry.favorite;
       }).length;
+    }
+
+    function updateHeroTone() {
+      const entryWithTone = entries.find(function(entry) {
+        return entry.imageTone;
+      });
+
+      if (!entryWithTone) {
+        document.documentElement.style.removeProperty("--hero-glow");
+        document.documentElement.style.removeProperty("--hero-glow-2");
+        return;
+      }
+
+      document.documentElement.style.setProperty("--hero-glow", entryWithTone.imageTone.primary);
+      document.documentElement.style.setProperty("--hero-glow-2", entryWithTone.imageTone.secondary);
     }
   </script>
   <script>
